@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 
-function restrict(role) {
-	const roles = ["basic", "admin", "super_admin"]
+function restrict(department) {
+	const departments = ["Toto", "Reu", "Guate"]
 
 	return async (req, res, next) => {
 		const authError = {
@@ -24,10 +24,11 @@ function restrict(role) {
 					return res.status(401).json(authError)
 				}
 
-				// One must be an admin or super-admin to gain access.
-				if (role && roles.indexOf(decoded.userRole) < roles.indexOf(role)) {
+                // One must be from Reu or Guate to gain access (see line 4 above).
+                // for < decoded.userDepartment > see users-route.js, line 67
+				if (department && departments.indexOf(decoded.userDepartment) < departments.indexOf(department)) {
 					return res.status(403).json({
-						message: "You are not allowed here.",
+						message: "Sos de Toto. Fuera!",
 					})
 				}
 
